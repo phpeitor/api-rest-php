@@ -13,8 +13,8 @@
 | **GET** | `http://localhost/api-rest-php/api/get_all_client.php` | Listar todos los usuarios |
 | **GET** | `http://localhost/api-rest-php/api/get_client_id.php/{id}` | Obtener usuario por ID |
 | **POST** | `http://localhost/api-rest-php/api/create_client.php` | Crear nuevo usuario |
-| **POST** | `http://localhost/api-rest-php/api/update_client.php` | Actualizar usuario |
-| **POST** | `http://localhost/api-rest-php/api/delete_client.php` | Eliminar usuario |
+| **PATCH** | `http://localhost/api-rest-php/api/update_client.php` | Actualizar usuario |
+| **DELETE** | `http://localhost/api-rest-php/api/delete_client.php` | Eliminar usuario |
 
 ### Ejemplo de uso
 
@@ -39,18 +39,18 @@ curl -X POST \
   "http://localhost/api-rest-php/api/create_client.php"
 ```
 
-**POST — Actualizar usuario:**
+**PATCH — Actualizar usuario:**
 ```bash
-curl -X POST \
+curl -X PATCH \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"id":"00001","paterno":"New","materno":"Name","nombres":"Updated"}' \
   "http://localhost/api-rest-php/api/update_client.php"
 ```
 
-**POST — Eliminar usuario:**
+**DELETE — Eliminar usuario:**
 ```bash
-curl -X POST \
+curl -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"id":"00001"}' \

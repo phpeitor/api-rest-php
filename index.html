@@ -53,23 +53,23 @@
       </div>
 
       <div class="card">
-        <h3>POST - Actualizar cliente</h3>
+        <h3>PATCH - Actualizar cliente</h3>
         <label>ID</label>
         <input id="update-id" type="text" value="00001" />
         <label>Nombres</label>
         <input id="update-names" type="text" value="NuevoNombre" />
-        <button id="btn-update">Enviar POST</button>
+        <button id="btn-update">Enviar PATCH</button>
         <div id="res-update" class="res"></div>
-        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/update_client.php"</pre>
+        <pre>curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/update_client.php"</pre>
       </div>
 
       <div class="card full">
-        <h3>POST - Eliminar cliente</h3>
+        <h3>DELETE - Eliminar cliente</h3>
         <label>ID</label>
         <input id="delete-id" type="text" value="00010" />
-        <button id="btn-delete">Enviar POST</button>
+        <button id="btn-delete">Enviar DELETE</button>
         <div id="res-delete" class="res"></div>
-        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{"id":"00010"}' "{{base}}/api/delete_client.php"</pre>
+        <pre>curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{"id":"00010"}' "{{base}}/api/delete_client.php"</pre>
       </div>
 
       <div class="card full">

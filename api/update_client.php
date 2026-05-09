@@ -10,7 +10,7 @@
     if (isset($headers['Authorization']) && $headers['Authorization'] === "Bearer $static_token") {
 
    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['CONTENT_TYPE'], 'application/json') === 0) {
+        if ($_SERVER['REQUEST_METHOD'] === 'PATCH' && strpos($_SERVER['CONTENT_TYPE'], 'application/json') === 0) {
 
             $input_data = json_decode(file_get_contents('php://input'), true);
     
@@ -46,7 +46,7 @@
     
             header('Content-Type: application/json; charset=utf-8');
             http_response_code(400);
-            echo json_encode(array('message' => 'La solicitud debe ser POST y tener el tipo de contenido application/json'));
+            echo json_encode(array('message' => 'La solicitud debe ser PATCH y tener el tipo de contenido application/json'));
         }
 
     } else {

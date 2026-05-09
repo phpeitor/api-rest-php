@@ -57,14 +57,14 @@
   document.getElementById('btn-update').addEventListener('click', async ()=>{
     const token = getToken();
     const payload = { id: document.getElementById('update-id').value.trim(), paterno:'', materno:'', nombres: document.getElementById('update-names').value.trim() };
-    const out = await fetchJson('api/update_client.php', { method:'POST', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
+    const out = await fetchJson('api/update_client.php', { method:'PATCH', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
     document.getElementById('res-update').innerText = out;
   });
 
   document.getElementById('btn-delete').addEventListener('click', async ()=>{
     const token = getToken();
     const payload = { id: document.getElementById('delete-id').value.trim() };
-    const out = await fetchJson('api/delete_client.php', { method:'POST', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
+    const out = await fetchJson('api/delete_client.php', { method:'DELETE', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
     document.getElementById('res-delete').innerText = out;
   });
 })();
