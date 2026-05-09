@@ -1,7 +1,23 @@
 <?php
     require_once('Database.class.php');
 	
-	define('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkZPUlRFTC5BVU5BIiwiY29tcGFueSI6IkJJVEVMIiwiZXhwIjoxNzE1MDI1MDY2fQ.voGPeR47VqOBsPJ29DkziTKPskc2_jBPOY4mKDoohZs');
+	// Cargar variables de entorno
+	$autoload = __DIR__ . '/../vendor/autoload.php';
+	if (file_exists($autoload)) {
+	    require_once($autoload);
+	}
+	if (class_exists('Dotenv\\Dotenv')) {
+	    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+	    $dotenv->safeLoad();
+	}
+	
+	// Obtener token desde .env
+	$token_value = getenv('API_TOKEN');
+	if (!$token_value) {
+	    // Fallback al valor por defecto si no está en .env
+	    $token_value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkZPUlRFTC5BVU5BIiwiY29tcGFueSI6IkJJVEVMIiwiZXhwIjoxNzE1MDI1MDY2fQ.voGPeR47VqOBsPJ29DkziTKPskc2_jBPOY4mKDoohZs';
+	}
+	define('token', $token_value);
 
     class Client{
         public static function create_client($id, $paterno, $materno, $nombres, $correo, $clave, $semilla){
