@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 /**
  * Ejecuta la migracion SQL de forma automatica.
  *
@@ -46,6 +48,24 @@ function getOption(string $name, string $default = ''): string
     return $default;
 }
 
+function envValue(string $key, string $default = ''): string
+{
+    if (isset($_ENV[$key])) {
+        return (string) $_ENV[$key];
+    }
+
+    if (isset($_SERVER[$key])) {
+        return (string) $_SERVER[$key];
+    }
+
+    $value = getenv($key);
+    if ($value !== false) {
+        return (string) $value;
+    }
+
+    return $default;
+}
+
 function splitSqlStatements(string $sql): array
 {
     $sql = preg_replace('/^\s*--.*$/m', '', $sql);
@@ -67,9 +87,12 @@ function splitSqlStatements(string $sql): array
     return $statements;
 }
 
-$host = getOption('host', 'localhost');
-$user = getOption('user', 'root');
-$password = getOption('password', '');
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->safeLoad();
+
+$host = getOption('host', envValue('DB_HOST', 'localhost'));
+$user = getOption('user', envValue('DB_USER', 'root'));
+$password = getOption('password', envValue('DB_PASSWORD', ''));
 
 $sqlFile = __DIR__ . '/test.sql';
 
