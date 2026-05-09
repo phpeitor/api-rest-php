@@ -1,0 +1,32 @@
+# Composer
+/vendor/
+composer.lock
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Cache / temp
+tmp/
+cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime files
+*.pid
+*.seed
+
+# Test reports
+coverage/
+.phpunit.result.cache
