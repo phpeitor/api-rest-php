@@ -6,16 +6,62 @@
 
 [![Video Demo](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=p-I0_x5ApjA)
 
+## Endpoints
 
-    GET /api-rest-php/api/get_all_client.php → Listar
----
-    POST /api-rest-php/api/create_client.php → Registrar
----
-    POST /api-rest-php/api/update_client.php → Actualizar
----
-    POST /api-rest-php/api/delete_client.php → Eliminar
----
-    GET /api-rest-php/api/get_client_id.php → Obtener por id
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| **GET** | `http://localhost/api-rest-php/api/get_all_client.php` | Listar todos los usuarios |
+| **GET** | `http://localhost/api-rest-php/api/get_client_id.php/{id}` | Obtener usuario por ID |
+| **POST** | `http://localhost/api-rest-php/api/create_client.php` | Crear nuevo usuario |
+| **POST** | `http://localhost/api-rest-php/api/update_client.php` | Actualizar usuario |
+| **POST** | `http://localhost/api-rest-php/api/delete_client.php` | Eliminar usuario |
+
+### Ejemplo de uso
+
+**GET — Listar usuarios:**
+```bash
+curl -H "Authorization: Bearer <token>" \
+  "http://localhost/api-rest-php/api/get_all_client.php"
+```
+
+**GET — Obtener usuario por ID:**
+```bash
+curl -H "Authorization: Bearer <token>" \
+  "http://localhost/api-rest-php/api/get_client_id.php/00001"
+```
+
+**POST — Crear usuario:**
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"id":"00011","paterno":"Smith","materno":"Doe","nombres":"John","correo":"john@example.com","clave":"pass123","semilla":"seed"}' \
+  "http://localhost/api-rest-php/api/create_client.php"
+```
+
+**POST — Actualizar usuario:**
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"id":"00001","paterno":"New","materno":"Name","nombres":"Updated"}' \
+  "http://localhost/api-rest-php/api/update_client.php"
+```
+
+**POST — Eliminar usuario:**
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"id":"00001"}' \
+  "http://localhost/api-rest-php/api/delete_client.php"
+```
+
+### Interfaz web
+Accede a la interfaz interactiva en:
+```
+http://localhost/api-rest-php/
+```
 
 ## Requerimientos
 - PHP 8.3 o superior con controladores PDO habilitados
