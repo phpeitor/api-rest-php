@@ -1,5 +1,4 @@
-# API Rest PHP - JWT 💻🐘
-JSON Web Token (JWT) en una API REST en PHP proporciona una capa adicional de seguridad al permitir la autenticación de usuarios de manera eficiente y segura. Al utilizar JWT, los usuarios reciben un token único después de autenticarse correctamente, el cual luego se incluye en las solicitudes posteriores para verificar su identidad. 
+# API Rest PHP 💻🐘
 
     GET /api-rest-php/api/get_all_client.php → Listar
 ---

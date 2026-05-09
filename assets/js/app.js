@@ -3,6 +3,14 @@
   const base = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
   document.querySelectorAll('pre').forEach(p => p.innerText = p.innerText.replace('{{base}}', base));
 
+  // Precargar token desde token.php (dev only)
+  fetch('token.php').then(r => r.json()).then(j => {
+    if (j && j.token) {
+      const el = document.getElementById('token');
+      if (el) el.value = j.token;
+    }
+  }).catch(()=>{});
+
   function getToken(){
     return document.getElementById('token').value.trim();
   }

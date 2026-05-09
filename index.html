@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='75'>🐘</text></svg>" />
+  <title>API REST PHP - Welcome</title>
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Bienvenido - API REST PHP (demostración)</h1>
+      <small>Endpoints: create, delete, get, update</small>
+    </header>
+
+    <p>Usa el campo <strong>Token</strong> para enviar el header <code>Authorization: Bearer &lt;token&gt;</code> requerido por los endpoints.</p>
+
+    <div class="card">
+      <label>Token (obtenlo de <code>includes/Client.class.php</code> si usas el token estático)</label>
+      <input id="token" type="text" placeholder="Bearer token value" />
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>GET - Listar clientes</h3>
+        <p>Endpoint: <code>/api/get_all_client.php</code></p>
+        <button id="btn-get-all">Llamar GET</button>
+        <div id="res-get-all" class="res" aria-live="polite"></div>
+        <pre>curl -H "Authorization: Bearer &lt;token&gt;" "{{base}}/api/get_all_client.php"</pre>
+      </div>
+
+      <div class="card">
+        <h3>GET - Cliente por ID</h3>
+        <label>ID de usuario</label>
+        <input id="get-id" type="text" placeholder="00001" />
+        <button id="btn-get-id">Llamar GET por ID</button>
+        <div id="res-get-id" class="res"></div>
+        <pre>curl -H "Authorization: Bearer &lt;token&gt;" "{{base}}/api/get_client_id.php/00001"</pre>
+      </div>
+
+      <div class="card">
+        <h3>POST - Crear cliente</h3>
+        <label>ID</label>
+        <input id="create-id" type="text" value="00011" />
+        <label>Nombres</label>
+        <input id="create-names" type="text" value="Nombre" />
+        <label>Correo</label>
+        <input id="create-email" type="email" value="nuevo@example.com" />
+        <button id="btn-create">Enviar POST</button>
+        <div id="res-create" class="res"></div>
+        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/create_client.php"</pre>
+      </div>
+
+      <div class="card">
+        <h3>POST - Actualizar cliente</h3>
+        <label>ID</label>
+        <input id="update-id" type="text" value="00001" />
+        <label>Nombres</label>
+        <input id="update-names" type="text" value="NuevoNombre" />
+        <button id="btn-update">Enviar POST</button>
+        <div id="res-update" class="res"></div>
+        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/update_client.php"</pre>
+      </div>
+
+      <div class="card full">
+        <h3>POST - Eliminar cliente</h3>
+        <label>ID</label>
+        <input id="delete-id" type="text" value="00010" />
+        <button id="btn-delete">Enviar POST</button>
+        <div id="res-delete" class="res"></div>
+        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{"id":"00010"}' "{{base}}/api/delete_client.php"</pre>
+      </div>
+
+      <div class="card full">
+        <h3>Utilidades</h3>
+        <p><a href="db/migrate.php">Ejecutar migración (db/migrate.php)</a> - crea BD y carga datos de prueba.</p>
+        <p><a href="README.md">Leer documentación</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
