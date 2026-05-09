@@ -1,4 +1,4 @@
-# API Rest PHP 💻🐘
+## API Rest PHP 💻🐘
 
     GET /api-rest-php/api/get_all_client.php → Listar
 ---
@@ -10,11 +10,11 @@
 ---
     GET /api-rest-php/api/get_client_id.php → Obtener por id
 
-# Requerimientos
+## Requerimientos
 - PHP 8.3 o superior con controladores PDO habilitados
 - MySQL 5.7 / MariaDB 10.0
 
-# Migracion completada (PHP 8.3 + Composer)
+## Migracion completada (PHP 8.3 + Composer)
 
 Estado actual del proyecto:
 - Composer inicializado en la raiz del repo
@@ -24,7 +24,7 @@ Estado actual del proyecto:
 - Dependencia de entorno agregada: `vlucas/phpdotenv` (carga automatica de `.env`)
 - Auditoria de Composer sin vulnerabilidades conocidas (`composer audit`)
 
-## Variables de entorno (.env)
+### Variables de entorno (.env)
 La conexion a base de datos ya no usa valores fijos en codigo.
 Ahora se cargan automaticamente desde el archivo `.env`.
 
