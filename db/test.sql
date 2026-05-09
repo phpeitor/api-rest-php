@@ -4,11 +4,11 @@
 SET NAMES utf8mb4;
 SET time_zone = '+00:00';
 
-CREATE DATABASE IF NOT EXISTS `test`
+CREATE DATABASE IF NOT EXISTS `bd_test`
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE `test`;
+USE `bd_test`;
 
 START TRANSACTION;
 

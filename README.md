@@ -53,5 +53,28 @@ composer audit
 Get-ChildItem -Path . -Recurse -Filter *.php | ForEach-Object { php -l $_.FullName }
 ```
 
+## Ejecutar migracion con un solo script PHP
+El archivo `db/migrate.php` ejecuta automaticamente `db/test.sql`.
+
+Ejecutar por CLI:
+```bash
+php db/migrate.php
+```
+
+Con credenciales personalizadas:
+```bash
+php db/migrate.php --host=localhost --user=root --password=
+```
+
+Tambien se puede ejecutar desde navegador:
+```text
+http://localhost/api-rest-php/db/migrate.php
+```
+
+Resultado esperado:
+- Crea la base de datos `bd_test`
+- Crea la tabla `usuario`
+- Carga usuarios de prueba
+
 [![Video](https://img.youtube.com/vi/p-I0_x5ApjA/0.jpg)](https://www.youtube.com/watch?v=p-I0_x5ApjA)  
 [Ver demo](https://www.youtube.com/watch?v=p-I0_x5ApjA)
