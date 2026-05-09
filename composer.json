@@ -1,0 +1,19 @@
+{
+  "name": "api-rest-php/api-rest-php",
+  "description": "API REST en PHP con JWT",
+  "type": "project",
+  "require": {
+    "php": "^8.3",
+    "firebase/php-jwt": "^7.0"
+  },
+  "autoload": {
+    "classmap": [
+      "includes/"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
