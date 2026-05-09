@@ -46,8 +46,27 @@
             $database = $this->env('DB_NAME');
             $charset = $this->env('DB_CHARSET', 'utf8mb4');
 
-            if (!$database) {
-                die('ERROR: Falta configurar DB_NAME en el archivo .env');
+            // Validar variables obligatorias
+            $required = ['DB_HOST', 'DB_USER', 'DB_NAME'];
+            $missing = [];
+            foreach ($required as $key) {
+                $val = $this->env($key);
+                if ($val === null || $val === '') {
+                    $missing[] = $key;
+                }
+            }
+
+            if (count($missing) > 0) {
+                $msg = 'ERROR: Faltan variables obligatorias en el archivo .env: ' . implode(', ', $missing) . ".\n";
+                $msg .= "Copia .env.example a .env y ajusta los valores, por ejemplo: DB_NAME=bd_test";
+                // Mostrar y terminar ejecución
+                if (PHP_SAPI === 'cli') {
+                    fwrite(STDERR, $msg . PHP_EOL);
+                    exit(1);
+                }
+                header('Content-Type: text/plain; charset=utf-8');
+                echo $msg;
+                exit(1);
             }
 
             $hostDB = "mysql:host=".$host.";dbname=".$database.";charset=".$charset.";";

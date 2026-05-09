@@ -94,6 +94,26 @@ $host = getOption('host', envValue('DB_HOST', 'localhost'));
 $user = getOption('user', envValue('DB_USER', 'root'));
 $password = getOption('password', envValue('DB_PASSWORD', ''));
 
+// Validacion: asegurarse de tener host y user
+$missing = [];
+if (!$host) {
+    $missing[] = 'DB_HOST (o --host)';
+}
+if (!$user) {
+    $missing[] = 'DB_USER (o --user)';
+}
+
+if (count($missing) > 0) {
+    $msg = 'ERROR: faltan credenciales para ejecutar la migracion: ' . implode(', ', $missing) . ".\n";
+    $msg .= "Proporciona las variables en .env o pasa --host/--user como argumentos.\n";
+    if (isCli()) {
+        fwrite(STDERR, $msg);
+        exit(1);
+    }
+    outputLine($msg);
+    exit(1);
+}
+
 $sqlFile = __DIR__ . '/test.sql';
 
 if (!is_file($sqlFile)) {

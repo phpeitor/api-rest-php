@@ -22,7 +22,28 @@ Estado actual del proyecto:
 - Archivo `composer.json` agregado
 - Archivo `composer.lock` generado
 - Dependencia JWT actualizada a `firebase/php-jwt` v7.0.5
+- Dependencia de entorno agregada: `vlucas/phpdotenv` (carga automatica de `.env`)
 - Auditoria de Composer sin vulnerabilidades conocidas (`composer audit`)
+
+## Variables de entorno (.env)
+La conexion a base de datos ya no usa valores fijos en codigo.
+Ahora se cargan automaticamente desde el archivo `.env`.
+
+Archivos:
+- `.env` (local, no versionado)
+- `.env.example` (plantilla para el equipo)
+
+Variables usadas:
+- `DB_HOST`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+- `DB_CHARSET`
+
+Dependencia Composer usada para la carga automatica:
+```bash
+composer require vlucas/phpdotenv:^5.6
+```
 
 ## Actualizar Composer (global)
 ```bash
