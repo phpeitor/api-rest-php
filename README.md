@@ -62,6 +62,7 @@ Accede a la interfaz interactiva en:
 ```
 http://localhost/api-rest-php/
 ```
+La documentación puede leerse en formato HTML en `http://localhost/api-rest-php/docs.php`; se renderiza de forma segura desde este README.
 
 ## Requerimientos
 - PHP 8.3 o superior con controladores PDO habilitados
@@ -71,12 +72,14 @@ http://localhost/api-rest-php/
 
 ```text
 api/                    Endpoints HTTP (se conservan las URLs existentes)
+api/dev/token.php       Token de conveniencia solo para entorno local
 src/Client/             Lógica de clientes
 src/Database/           Conexión PDO y configuración de datos
 database/migrations/    Migraciones SQL versionadas
 database/migrate.php    Ejecutor de migraciones
 bin/                    Herramientas de línea de comandos
 assets/                 CSS y JavaScript de la interfaz de prueba
+docs.php                Visor HTML seguro para README.md
 includes/               Cargadores de compatibilidad para rutas antiguas
 db/migrate.php          Alias compatible para la migración
 ```
@@ -89,6 +92,7 @@ Estado actual del proyecto:
 - Archivo `composer.lock` generado
 - Dependencia JWT actualizada a `firebase/php-jwt` v7.0.5
 - Dependencia de entorno agregada: `vlucas/phpdotenv` (carga automatica de `.env`)
+- Renderizado de Markdown con `league/commonmark` (README en formato HTML)
 - Auditoria de Composer sin vulnerabilidades conocidas (`composer audit`)
 
 ### Variables de entorno (.env)

@@ -136,7 +136,7 @@
     request('btn-delete', 'res-delete', 'api/delete_client.php', { method: 'DELETE', body: JSON.stringify({ id }) });
   });
 
-  fetch(new URL('token.php', baseUrl), { headers: { Accept: 'application/json' } })
+  fetch(new URL('api/dev/token.php', baseUrl), { headers: { Accept: 'application/json' } })
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('No disponible')))
     .then(({ token }) => {
       if (token) {
