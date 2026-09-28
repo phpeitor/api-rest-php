@@ -1,4 +1,4 @@
-## API Rest PHP 💻🐘
+## API Rest PHP 🐘
 [![forthebadge](http://forthebadge.com/images/badges/for-robots.svg)](https://www.linkedin.com/in/drphp/)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](https://www.linkedin.com/in/drphp/)
 
