@@ -9,8 +9,12 @@
   },
   "autoload": {
     "classmap": [
-      "includes/"
+      "src/"
     ]
+  },
+  "scripts": {
+    "db:migrate": "php database/migrate.php",
+    "token:generate": "php bin/generate-token.php"
   },
   "config": {
     "sort-packages": true

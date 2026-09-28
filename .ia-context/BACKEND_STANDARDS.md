@@ -2,7 +2,7 @@
 
 ## Diseño
 
-- Implementar endpoints HTTP en `api/` y reutilizar las clases/lógica de `includes/`.
+- Implementar endpoints HTTP en `api/` y reutilizar las clases/lógica de `src/`. `includes/` contiene cargadores de compatibilidad.
 - Mantener la lógica de transporte separada del acceso a datos; evitar duplicación entre endpoints.
 - Usar PHP nativo y las dependencias ya declaradas en Composer. Evitar abstracciones y dependencias innecesarias.
 - Seguir PSR-12 y el nivel de PHP definido en `composer.json` (PHP 8.3+).

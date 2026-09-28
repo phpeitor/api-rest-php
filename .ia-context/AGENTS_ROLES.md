@@ -8,14 +8,14 @@
 
 ## Backend PHP
 
-- Mantener endpoints en `api/` y lógica reutilizable/acceso PDO en `includes/`.
+- Mantener endpoints en `api/` y lógica reutilizable/acceso PDO en `src/`; `includes/` conserva cargadores de compatibilidad.
 - Validar método, autenticación y entradas; preservar el contrato HTTP; responder JSON y códigos adecuados.
 - Aplicar PSR-12, prepared statements y manejo seguro de errores.
 - Evitar framework, ORM o dependencias nuevas sin necesidad concreta.
 
 ## Datos
 
-- Revisar y mantener coordinados `includes/`, `db/` y el esquema de la base.
+- Revisar y mantener coordinados `src/`, `database/migrations/` y el esquema de la base.
 - Proponer migración/documentación con cambios estructurales.
 - Nunca incluir credenciales reales, contraseñas en texto plano ni secretos en archivos versionados.
 

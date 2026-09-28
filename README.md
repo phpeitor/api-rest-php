@@ -67,6 +67,20 @@ http://localhost/api-rest-php/
 - PHP 8.3 o superior con controladores PDO habilitados
 - MySQL 5.7 / MariaDB 10.0
 
+## Estructura del proyecto
+
+```text
+api/                    Endpoints HTTP (se conservan las URLs existentes)
+src/Client/             Lógica de clientes
+src/Database/           Conexión PDO y configuración de datos
+database/migrations/    Migraciones SQL versionadas
+database/migrate.php    Ejecutor de migraciones
+bin/                    Herramientas de línea de comandos
+assets/                 CSS y JavaScript de la interfaz de prueba
+includes/               Cargadores de compatibilidad para rutas antiguas
+db/migrate.php          Alias compatible para la migración
+```
+
 ## Migracion completada (PHP 8.3 + Composer)
 
 Estado actual del proyecto:
@@ -126,22 +140,24 @@ composer audit
 Get-ChildItem -Path . -Recurse -Filter *.php | ForEach-Object { php -l $_.FullName }
 ```
 
-### Ejecutar migracion con un solo script PHP
-El archivo `db/migrate.php` ejecuta automaticamente `db/test.sql`.
+### Ejecutar migración
+La migración inicial está en `database/migrations/001_initial.sql` y crea la base `bd_test`, la tabla `usuario` y datos de prueba. El SQL elimina y recrea `usuario`; úsalo solo en una base de desarrollo.
 
 Ejecutar por CLI:
 ```bash
-php db/migrate.php
+composer db:migrate
 ```
+
+También se conserva `php db/migrate.php`. Si no usas Composer, ejecuta `php database/migrate.php`.
 
 Con credenciales personalizadas:
 ```bash
-php db/migrate.php --host=localhost --user=root --password=
+php database/migrate.php --host=localhost --user=root --password=
 ```
 
 Tambien se puede ejecutar desde navegador:
 ```text
-http://localhost/api-rest-php/db/migrate.php
+http://localhost/api-rest-php/database/migrate.php
 ```
 
 Resultado esperado:

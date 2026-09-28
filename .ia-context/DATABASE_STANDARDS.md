@@ -2,7 +2,7 @@
 
 ## Tecnología y ubicación
 
-El proyecto utiliza PDO con MySQL/MariaDB. La configuración de conexión se obtiene de variables de entorno; el SQL, los datos de prueba y el script de migración viven en `db/`. Consultar `db/test.sql`, `db/migrate.php` y `includes/Database.class.php` antes de cambiar el esquema o la conexión.
+El proyecto utiliza PDO con MySQL/MariaDB. La configuración de conexión se obtiene de variables de entorno; las migraciones SQL viven en `database/migrations/` y el ejecutor en `database/migrate.php`. `db/migrate.php` e `includes/Database.class.php` se conservan como aliases de compatibilidad. Consultar la migración, `database/migrate.php` y `src/Database/Database.class.php` antes de cambiar el esquema o la conexión.
 
 ## Reglas
 
@@ -17,4 +17,4 @@ El proyecto utiliza PDO con MySQL/MariaDB. La configuración de conexión se obt
 
 ## Entorno
 
-Las variables `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` y `DB_CHARSET` están documentadas en el README y en `.env.example`. El archivo `.env` local debe permanecer sin versionar. Migrar según las instrucciones documentadas, actualmente mediante `php db/migrate.php`.
+Las variables `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` y `DB_CHARSET` están documentadas en el README y en `.env.example`. El archivo `.env` local debe permanecer sin versionar. Ejecutar migraciones con `composer db:migrate` o `php database/migrate.php`.
