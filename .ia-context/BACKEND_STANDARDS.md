@@ -6,6 +6,7 @@
 - Mantener la lógica de transporte separada del acceso a datos; evitar duplicación entre endpoints.
 - Usar PHP nativo y las dependencias ya declaradas en Composer. Evitar abstracciones y dependencias innecesarias.
 - Seguir PSR-12 y el nivel de PHP definido en `composer.json` (PHP 8.3+).
+- Los endpoints auxiliares de desarrollo deben vivir bajo `api/dev/` y responder únicamente con `APP_ENV=local`; no exponer credenciales en producción.
 
 ## Contrato HTTP
 
