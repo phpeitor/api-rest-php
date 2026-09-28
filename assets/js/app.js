@@ -1,70 +1,150 @@
-// JS extraido de index.php
-(function(){
-  const base = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
-  document.querySelectorAll('pre').forEach(p => p.innerText = p.innerText.replace('{{base}}', base));
+(() => {
+  const tokenInput = document.querySelector('#token');
+  const authState = document.querySelector('#auth-state');
+  const baseUrl = new URL('./', window.location.href);
 
-  // Precargar token desde token.php (dev only)
-  fetch('token.php').then(r => r.json()).then(j => {
-    if (j && j.token) {
-      const el = document.getElementById('token');
-      if (el) el.value = j.token;
+  document.querySelector('#toggle-token').addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const visible = tokenInput.type === 'password';
+    tokenInput.type = visible ? 'text' : 'password';
+    button.setAttribute('aria-label', visible ? 'Ocultar token' : 'Mostrar token');
+    button.title = visible ? 'Ocultar token' : 'Mostrar token';
+  });
+
+  document.querySelector('#clear-token').addEventListener('click', () => {
+    tokenInput.value = '';
+    tokenInput.focus();
+    setAuthState('manual', 'Token no configurado');
+  });
+
+  function setAuthState(state, message) {
+    authState.className = `auth-state ${state}`;
+    authState.innerHTML = '<span class="state-dot"></span>';
+    authState.append(document.createTextNode(` ${message}`));
+  }
+
+  function getHeaders(json = false) {
+    const headers = { Authorization: `Bearer ${tokenInput.value.trim()}` };
+    if (json) headers['Content-Type'] = 'application/json';
+    return headers;
+  }
+
+  function showResponse(element, { status = '…', duration = '', body = 'Enviando solicitud…', loading = false, error = false }) {
+    element.className = `response visible${loading ? ' loading' : ''}`;
+    element.replaceChildren();
+
+    const header = document.createElement('div');
+    header.className = 'response-head';
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `response-status${error ? ' error' : ''}`;
+    statusBadge.textContent = status;
+    const time = document.createElement('span');
+    time.className = 'response-time';
+    time.textContent = duration;
+    header.append(statusBadge, time);
+
+    const output = document.createElement('pre');
+    output.textContent = body;
+    element.append(header, output);
+  }
+
+  async function request(buttonId, responseId, path, options = {}) {
+    const button = document.getElementById(buttonId);
+    const output = document.getElementById(responseId);
+    const token = tokenInput.value.trim();
+
+    if (!token) {
+      showResponse(output, { status: 'TOKEN', body: 'Configura o pega un token antes de llamar al endpoint.', error: true });
+      tokenInput.focus();
+      setAuthState('manual', 'Token requerido');
+      return;
     }
-  }).catch(()=>{});
 
-  function getToken(){
-    return document.getElementById('token').value.trim();
+    const originalContent = button.innerHTML;
+    button.disabled = true;
+    button.textContent = 'Enviando…';
+    showResponse(output, { status: '…', body: 'Esperando respuesta del servidor…', loading: true });
+    const start = performance.now();
+
+    try {
+      const url = new URL(path, baseUrl);
+      const response = await fetch(url, {
+        ...options,
+        headers: { ...getHeaders(Boolean(options.body)), ...options.headers },
+      });
+      const text = await response.text();
+      let body = text || '(respuesta vacía)';
+      try {
+        body = JSON.stringify(JSON.parse(text), null, 2);
+      } catch {
+        // Algunas respuestas de error del servidor pueden no estar en formato JSON.
+      }
+      const elapsed = `${Math.round(performance.now() - start)} ms`;
+      showResponse(output, { status: `${response.status} ${response.statusText}`, duration: elapsed, body, error: !response.ok });
+      if (response.status === 401) setAuthState('manual', 'Token rechazado');
+    } catch (error) {
+      showResponse(output, { status: 'ERROR', duration: `${Math.round(performance.now() - start)} ms`, body: error.message || 'No se pudo conectar con el servidor.', error: true });
+    } finally {
+      button.disabled = false;
+      button.innerHTML = originalContent;
+    }
   }
 
-  async function fetchJson(url, options={}){
-    try{
-      const res = await fetch(url, options);
-      const text = await res.text();
-      try{ return JSON.stringify(JSON.parse(text), null, 2); } catch(e){ return text; }
-    } catch(e){ return 'ERROR: '+e.message; }
-  }
+  document.querySelector('#btn-get-all').addEventListener('click', () =>
+    request('btn-get-all', 'res-get-all', 'api/get_all_client.php'));
 
-  document.getElementById('btn-get-all').addEventListener('click', async ()=>{
-    const token = getToken();
-    const url = 'api/get_all_client.php';
-    const out = await fetchJson(url, { headers: { 'Authorization': 'Bearer '+token } });
-    document.getElementById('res-get-all').innerText = out;
+  document.querySelector('#btn-get-id').addEventListener('click', () => {
+    const id = document.querySelector('#get-id').value.trim();
+    if (!id) {
+      document.querySelector('#get-id').focus();
+      showResponse(document.querySelector('#res-get-id'), { status: 'VALIDACIÓN', body: 'Escribe el ID del cliente que quieres consultar.', error: true });
+      return;
+    }
+    request('btn-get-id', 'res-get-id', `api/get_client_id.php/${encodeURIComponent(id)}`);
   });
 
-  document.getElementById('btn-get-id').addEventListener('click', async ()=>{
-    const token = getToken();
-    const id = document.getElementById('get-id').value.trim();
-    if(!id){ document.getElementById('res-get-id').innerText='Ingrese ID'; return; }
-    const url = `api/get_client_id.php/${encodeURIComponent(id)}`;
-    const out = await fetchJson(url, { headers: { 'Authorization': 'Bearer '+token } });
-    document.getElementById('res-get-id').innerText = out;
-  });
-
-  document.getElementById('btn-create').addEventListener('click', async ()=>{
-    const token = getToken();
+  document.querySelector('#btn-create').addEventListener('click', () => {
     const payload = {
-      id: document.getElementById('create-id').value.trim(),
+      id: document.querySelector('#create-id').value.trim(),
       paterno: '',
       materno: '',
-      nombres: document.getElementById('create-names').value.trim(),
-      correo: document.getElementById('create-email').value.trim(),
+      nombres: document.querySelector('#create-names').value.trim(),
+      correo: document.querySelector('#create-email').value.trim(),
       clave: 'changeme',
-      semilla: 'seed'
+      semilla: 'seed',
     };
-    const out = await fetchJson('api/create_client.php', { method:'POST', headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
-    document.getElementById('res-create').innerText = out;
+    request('btn-create', 'res-create', 'api/create_client.php', { method: 'POST', body: JSON.stringify(payload) });
   });
 
-  document.getElementById('btn-update').addEventListener('click', async ()=>{
-    const token = getToken();
-    const payload = { id: document.getElementById('update-id').value.trim(), paterno:'', materno:'', nombres: document.getElementById('update-names').value.trim() };
-    const out = await fetchJson('api/update_client.php', { method:'PATCH', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
-    document.getElementById('res-update').innerText = out;
+  document.querySelector('#btn-update').addEventListener('click', () => {
+    const payload = {
+      id: document.querySelector('#update-id').value.trim(),
+      paterno: '',
+      materno: '',
+      nombres: document.querySelector('#update-names').value.trim(),
+    };
+    request('btn-update', 'res-update', 'api/update_client.php', { method: 'PATCH', body: JSON.stringify(payload) });
   });
 
-  document.getElementById('btn-delete').addEventListener('click', async ()=>{
-    const token = getToken();
-    const payload = { id: document.getElementById('delete-id').value.trim() };
-    const out = await fetchJson('api/delete_client.php', { method:'DELETE', headers:{ 'Content-Type':'application/json','Authorization':'Bearer '+token }, body: JSON.stringify(payload) });
-    document.getElementById('res-delete').innerText = out;
+  document.querySelector('#btn-delete').addEventListener('click', () => {
+    const id = document.querySelector('#delete-id').value.trim();
+    if (!id) {
+      document.querySelector('#delete-id').focus();
+      showResponse(document.querySelector('#res-delete'), { status: 'VALIDACIÓN', body: 'Escribe el ID del cliente que quieres eliminar.', error: true });
+      return;
+    }
+    request('btn-delete', 'res-delete', 'api/delete_client.php', { method: 'DELETE', body: JSON.stringify({ id }) });
   });
+
+  fetch(new URL('token.php', baseUrl), { headers: { Accept: 'application/json' } })
+    .then((response) => response.ok ? response.json() : Promise.reject(new Error('No disponible')))
+    .then(({ token }) => {
+      if (token) {
+        tokenInput.value = token;
+        setAuthState('ready', 'Token configurado');
+      } else {
+        setAuthState('manual', 'Pega tu token para comenzar');
+      }
+    })
+    .catch(() => setAuthState('manual', 'Pega tu token para comenzar'));
 })();
