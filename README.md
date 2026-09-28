@@ -1,5 +1,5 @@
 ## API Rest PHP 🐘
-[![forthebadge](https://img.shields.io/badge/-PHP-7a86b8?style=for-the-badge&logo=php&logoColor=white)](https://www.linkedin.com/in/drphp/)
+[![forthebadge](/badges/open-source.svg)](https://www.linkedin.com/in/drphp/)
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](https://www.linkedin.com/in/drphp/)
 
