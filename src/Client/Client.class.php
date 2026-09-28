@@ -2,17 +2,18 @@
     require_once __DIR__ . '/../Database/Database.class.php';
 	
 	// Cargar variables de entorno
-	$autoload = __DIR__ . '/../vendor/autoload.php';
+    $projectRoot = dirname(__DIR__, 2);
+    $autoload = $projectRoot . '/vendor/autoload.php';
 	if (file_exists($autoload)) {
 	    require_once($autoload);
 	}
 	if (class_exists('Dotenv\\Dotenv')) {
-	    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+        $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
 	    $dotenv->safeLoad();
 	}
 	
 	// Obtener token desde .env
-	$token_value = getenv('API_TOKEN');
+    $token_value = $_ENV['API_TOKEN'] ?? $_SERVER['API_TOKEN'] ?? getenv('API_TOKEN');
 	if (!$token_value) {
 	    // Fallback al valor por defecto si no está en .env
 	    $token_value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkZPUlRFTC5BVU5BIiwiY29tcGFueSI6IkJJVEVMIiwiZXhwIjoxNzE1MDI1MDY2fQ.voGPeR47VqOBsPJ29DkziTKPskc2_jBPOY4mKDoohZs';

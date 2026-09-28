@@ -2,84 +2,86 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='75'>🐘</text></svg>" />
-  <title>API REST PHP - Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4f7fb" />
+  <meta name="description" content="Consola interactiva para explorar y probar la API REST de clientes." />
+  <title>API REST · Consola de clientes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><text x='50' y='68' text-anchor='middle' font-size='54' fill='white' font-family='Arial'>A</text></svg>" />
   <link rel="stylesheet" href="assets/css/app.css" />
+  <script src="assets/js/app.js" defer></script>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Bienvenido - API REST PHP (demostración)</h1>
-      <small>Endpoints: create, delete, get, update</small>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Consola API REST, inicio">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>api<span class="brand-muted">.rest</span></span>
+      </a>
+      <div class="topbar-meta"><span class="live-dot"></span> Entorno local <span class="version-tag">PHP · MySQL</span></div>
     </header>
 
-    <p>Usa el campo <strong>Token</strong> para enviar el header <code>Authorization: Bearer &lt;token&gt;</code> requerido por los endpoints.</p>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">CONSOLA DE DESARROLLO <span>·</span> V1.0</p>
+          <h1>Tu API, <span>lista para probar.</span></h1>
+          <p class="hero-description">Explora los endpoints de clientes, envía solicitudes y revisa las respuestas en un solo lugar.</p>
+          <div class="hero-pills"><span><i class="method get">GET</i> Consultar</span><span><i class="method post">POST</i> Crear</span><span><i class="method patch">PATCH</i> Actualizar</span><span><i class="method delete">DELETE</i> Eliminar</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core"><span>{ }</span></div><span class="art-node node-one">GET</span><span class="art-node node-two">200</span><span class="art-node node-three">API</span></div>
+      </section>
 
-    <div class="card">
-      <label>Token (obtenlo de <code>includes/Client.class.php</code> si usas el token estático)</label>
-      <input id="token" type="text" placeholder="Bearer token value" />
-    </div>
+      <section class="auth-card" aria-labelledby="auth-title">
+        <div class="auth-icon" aria-hidden="true">⌘</div>
+        <div class="auth-content">
+          <div class="auth-heading"><div><h2 id="auth-title">Autenticación</h2><p>El token se envía como <code>Authorization: Bearer &lt;token&gt;</code>.</p></div><span id="auth-state" class="auth-state"><span class="state-dot"></span> Comprobando token</span></div>
+          <label for="token">Bearer token</label>
+          <div class="token-row"><input id="token" type="password" autocomplete="off" placeholder="Pega tu token de acceso" /><button id="toggle-token" class="icon-button" type="button" aria-label="Mostrar token" title="Mostrar token">◉</button><button id="clear-token" class="text-button" type="button">Limpiar</button></div>
+          <p class="field-hint">En desarrollo, el token se carga desde la configuración local del proyecto.</p>
+        </div>
+      </section>
 
-    <div class="grid">
-      <div class="card">
-        <h3>GET - Listar clientes</h3>
-        <p>Endpoint: <code>/api/get_all_client.php</code></p>
-        <button id="btn-get-all">Llamar GET</button>
-        <div id="res-get-all" class="res" aria-live="polite"></div>
-        <pre>curl -H "Authorization: Bearer &lt;token&gt;" "{{base}}/api/get_all_client.php"</pre>
-      </div>
+      <div class="section-heading"><div><p class="eyebrow">ENDPOINTS</p><h2>Operaciones de clientes</h2></div><span class="endpoint-count">05 endpoints</span></div>
 
-      <div class="card">
-        <h3>GET - Cliente por ID</h3>
-        <label>ID de usuario</label>
-        <input id="get-id" type="text" placeholder="00001" />
-        <button id="btn-get-id">Llamar GET por ID</button>
-        <div id="res-get-id" class="res"></div>
-        <pre>curl -H "Authorization: Bearer &lt;token&gt;" "{{base}}/api/get_client_id.php/00001"</pre>
-      </div>
+      <section class="endpoint-grid" aria-label="Endpoints de clientes">
+        <article class="endpoint-card endpoint-wide">
+          <div class="endpoint-top"><span class="method get">GET</span><span class="endpoint-path">/api/get_all_client.php</span><span class="endpoint-description">Devuelve todos los clientes</span></div>
+          <div class="endpoint-action"><div><h3>Listar clientes</h3><p>Consulta el listado completo de clientes registrados.</p></div><button id="btn-get-all" class="primary-button"><span>Enviar solicitud</span><span aria-hidden="true">↗</span></button></div>
+          <div id="res-get-all" class="response" aria-live="polite" aria-atomic="true"></div>
+        </article>
 
-      <div class="card">
-        <h3>POST - Crear cliente</h3>
-        <label>ID</label>
-        <input id="create-id" type="text" value="00011" />
-        <label>Nombres</label>
-        <input id="create-names" type="text" value="Nombre" />
-        <label>Correo</label>
-        <input id="create-email" type="email" value="nuevo@example.com" />
-        <button id="btn-create">Enviar POST</button>
-        <div id="res-create" class="res"></div>
-        <pre>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/create_client.php"</pre>
-      </div>
+        <article class="endpoint-card">
+          <div class="endpoint-top"><span class="method get">GET</span><span class="endpoint-path">/api/get_client_id.php/{id}</span></div>
+          <h3>Obtener cliente</h3><p class="card-description">Busca un cliente por su identificador.</p>
+          <label for="get-id">ID del cliente</label><div class="inline-form"><input id="get-id" type="text" placeholder="Ej. 00001" /><button id="btn-get-id" class="primary-button" aria-label="Buscar cliente">Buscar <span aria-hidden="true">→</span></button></div>
+          <div id="res-get-id" class="response" aria-live="polite"></div>
+        </article>
 
-      <div class="card">
-        <h3>PATCH - Actualizar cliente</h3>
-        <label>ID</label>
-        <input id="update-id" type="text" value="00001" />
-        <label>Nombres</label>
-        <input id="update-names" type="text" value="NuevoNombre" />
-        <button id="btn-update">Enviar PATCH</button>
-        <div id="res-update" class="res"></div>
-        <pre>curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{...}' "{{base}}/api/update_client.php"</pre>
-      </div>
+        <article class="endpoint-card">
+          <div class="endpoint-top"><span class="method post">POST</span><span class="endpoint-path">/api/create_client.php</span></div>
+          <h3>Crear cliente</h3><p class="card-description">Registra un cliente nuevo en la base de datos.</p>
+          <div class="form-grid"><div><label for="create-id">ID</label><input id="create-id" type="text" value="00011" /></div><div><label for="create-names">Nombre</label><input id="create-names" type="text" placeholder="Nombre completo" /></div><div class="form-span"><label for="create-email">Correo electrónico</label><input id="create-email" type="email" placeholder="nombre@ejemplo.com" /></div></div>
+          <button id="btn-create" class="primary-button form-submit">Crear cliente <span aria-hidden="true">→</span></button><div id="res-create" class="response" aria-live="polite"></div>
+        </article>
 
-      <div class="card full">
-        <h3>DELETE - Eliminar cliente</h3>
-        <label>ID</label>
-        <input id="delete-id" type="text" value="00010" />
-        <button id="btn-delete">Enviar DELETE</button>
-        <div id="res-delete" class="res"></div>
-        <pre>curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer &lt;token&gt;" -d '{"id":"00010"}' "{{base}}/api/delete_client.php"</pre>
-      </div>
+        <article class="endpoint-card">
+          <div class="endpoint-top"><span class="method patch">PATCH</span><span class="endpoint-path">/api/update_client.php</span></div>
+          <h3>Actualizar cliente</h3><p class="card-description">Actualiza el nombre del cliente seleccionado.</p>
+          <div class="form-grid"><div><label for="update-id">ID</label><input id="update-id" type="text" placeholder="Ej. 00001" /></div><div><label for="update-names">Nuevo nombre</label><input id="update-names" type="text" placeholder="Nombre actualizado" /></div></div>
+          <button id="btn-update" class="primary-button form-submit">Guardar cambios <span aria-hidden="true">→</span></button><div id="res-update" class="response" aria-live="polite"></div>
+        </article>
 
-      <div class="card full">
-        <h3>Utilidades</h3>
-        <p><a href="db/migrate.php">Ejecutar migración (db/migrate.php)</a> - crea BD y carga datos de prueba.</p>
-        <p><a href="README.md">Leer documentación</a></p>
-      </div>
-    </div>
+        <article class="endpoint-card endpoint-danger">
+          <div class="endpoint-top"><span class="method delete">DELETE</span><span class="endpoint-path">/api/delete_client.php</span></div>
+          <h3>Eliminar cliente</h3><p class="card-description">Elimina de forma permanente el cliente indicado.</p>
+          <label for="delete-id">ID del cliente</label><div class="inline-form"><input id="delete-id" type="text" placeholder="Ej. 00001" /><button id="btn-delete" class="danger-button">Eliminar</button></div>
+          <div id="res-delete" class="response" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <section class="help-bar"><div class="help-icon" aria-hidden="true">i</div><div><strong>¿Primera vez ejecutando el proyecto?</strong><p>Configura MySQL y ejecuta la migración para crear <code>bd_test</code> con datos de prueba.</p></div><div class="help-actions"><a href="README.md">Leer documentación <span aria-hidden="true">↗</span></a><code>composer db:migrate</code></div></section>
+    </main>
+    <footer><span>API REST PHP</span><span>Consola de desarrollo local</span></footer>
   </div>
-
-  <script src="assets/js/app.js" defer></script>
 </body>
 </html>

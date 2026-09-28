@@ -7,13 +7,14 @@
                 return;
             }
 
-            $autoload = __DIR__ . '/../vendor/autoload.php';
+            $projectRoot = dirname(__DIR__, 2);
+            $autoload = $projectRoot . '/vendor/autoload.php';
             if (file_exists($autoload)) {
                 require_once($autoload);
             }
 
             if (class_exists('Dotenv\\Dotenv')) {
-                $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+                $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
                 $dotenv->safeLoad();
             }
 
