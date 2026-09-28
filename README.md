@@ -82,7 +82,6 @@ assets/                 CSS y JavaScript de la interfaz de prueba
 docs.php                Visor HTML seguro para README.md
 views/docs.php          Plantilla de la página de documentación
 includes/               Cargadores de compatibilidad para rutas antiguas
-db/migrate.php          Alias compatible para la migración
 ```
 
 ## Migracion completada (PHP 8.3 + Composer)
@@ -161,7 +160,7 @@ Ejecutar por CLI:
 composer db:migrate
 ```
 
-También se conserva `php db/migrate.php`. Si no usas Composer, ejecuta `php database/migrate.php`.
+Si no usas Composer, ejecuta `php database/migrate.php`.
 
 Con credenciales personalizadas:
 ```bash

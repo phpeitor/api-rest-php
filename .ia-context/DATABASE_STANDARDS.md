@@ -2,7 +2,7 @@
 
 ## Tecnología y ubicación
 
-El proyecto utiliza PDO con MySQL/MariaDB. La configuración de conexión se obtiene de variables de entorno; las migraciones SQL viven en `database/migrations/` y el ejecutor en `database/migrate.php`. `db/migrate.php` e `includes/Database.class.php` se conservan como aliases de compatibilidad. Consultar la migración, `database/migrate.php` y `src/Database/Database.class.php` antes de cambiar el esquema o la conexión.
+El proyecto utiliza PDO con MySQL/MariaDB. La configuración de conexión se obtiene de variables de entorno; las migraciones SQL viven en `database/migrations/` y el ejecutor en `database/migrate.php`. Consultar la migración, `database/migrate.php` y `src/Database/Database.class.php` antes de cambiar el esquema o la conexión.
 
 ## Reglas
 

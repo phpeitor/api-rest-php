@@ -20,7 +20,7 @@ Cliente HTTP / interfaz de prueba
 
 - Mantener PHP nativo; no añadir framework ni nuevas dependencias sin justificación concreta.
 - Seguir PSR-12 y respetar la estructura existente.
-- Consultar SQL y migraciones en `database/migrations/` antes de modificar el modelo de datos. `db/migrate.php` se conserva como alias de compatibilidad.
+- Consultar SQL y migraciones en `database/migrations/` antes de modificar el modelo de datos; ejecutar migraciones con `composer db:migrate`.
 - Usar consultas preparadas, validar entradas en servidor y no exponer errores internos.
 - Mantener secretos fuera del repositorio; documentar variables en `.env.example`.
 - Para cambios en la interfaz, conservar HTML, CSS y JavaScript en archivos separados.

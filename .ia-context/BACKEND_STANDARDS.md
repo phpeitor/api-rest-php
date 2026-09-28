@@ -22,7 +22,7 @@
 - Utilizar la conexión PDO compartida por el proyecto.
 - Usar prepared statements para todos los valores externos; no concatenar entrada en SQL.
 - Aplicar validación de campos antes de ejecutar consultas y gestionar los resultados/errores explícitamente.
-- Mantener cambios de esquema y datos de prueba en `db/`, actualizando la migración correspondiente.
+- Mantener cambios de esquema y datos de prueba en `database/migrations/`, actualizando la migración correspondiente.
 
 ## Autenticación y configuración
 
