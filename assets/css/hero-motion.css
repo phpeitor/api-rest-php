@@ -1,0 +1,13 @@
+.hero-art::before{position:absolute;inset:24px;border-radius:50%;background:radial-gradient(circle,#847df12a 0,transparent 68%);filter:blur(12px);content:"";animation:hero-glow 5s ease-in-out infinite}
+.hero-art .orbit-one{animation:orbit-turn 32s linear infinite}
+.hero-art .orbit-two{animation:orbit-turn 24s linear infinite reverse}
+.hero-art .art-core{position:relative;z-index:1;animation:core-float 4.8s ease-in-out infinite;transition:box-shadow .35s,background .35s,transform .35s}
+.hero-art .art-node{z-index:2;animation:node-float 4.2s ease-in-out infinite;transition:color .25s,border-color .25s,box-shadow .25s}
+.hero-art .node-two{animation-delay:-1.4s}.hero-art .node-three{animation-delay:-2.7s}
+.hero:hover .art-core{transform:translateY(-5px) rotate(-3deg) scale(1.05);background:linear-gradient(145deg,#fff,#e9e7ff);box-shadow:0 18px 42px #5148e540,0 0 0 8px #5148e50a}
+.hero:hover .art-node{border-color:#d5d2ff;box-shadow:0 9px 22px #5148e51a}
+@keyframes orbit-turn{to{transform:rotate(360deg)}}
+@keyframes core-float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes node-float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@keyframes hero-glow{0%,100%{opacity:.55;scale:.92}50%{opacity:1;scale:1.08}}
+@media(prefers-reduced-motion:reduce){.hero-art::before,.hero-art .orbit-one,.hero-art .orbit-two,.hero-art .art-core,.hero-art .art-node{animation:none!important;transition:none!important}.hero:hover .art-core{transform:none}}

@@ -80,6 +80,7 @@ database/migrate.php    Ejecutor de migraciones
 bin/                    Herramientas de línea de comandos
 assets/                 CSS y JavaScript de la interfaz de prueba
 docs.php                Visor HTML seguro para README.md
+views/docs.php          Plantilla de la página de documentación
 includes/               Cargadores de compatibilidad para rutas antiguas
 db/migrate.php          Alias compatible para la migración
 ```
