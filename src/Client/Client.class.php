@@ -87,7 +87,7 @@
         public static function get_all_clients(){
             $database = new Database();
             $conn = $database->getConnection();
-            $stmt = $conn->prepare('SELECT * FROM usuario');
+            $stmt = $conn->prepare('SELECT usuario_id, id, paterno, materno, nombres, correo, registro_fecha, actualizado_fecha FROM usuario');
             if ($stmt->execute()) {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if ($result) {
@@ -111,7 +111,7 @@
             $database = new Database();
             $conn = $database->getConnection();
             
-            $stmt = $conn->prepare('SELECT * FROM usuario WHERE id = :id');
+            $stmt = $conn->prepare('SELECT usuario_id, id, paterno, materno, nombres, correo, registro_fecha, actualizado_fecha FROM usuario WHERE id = :id');
             $stmt->bindParam(':id', $id);
             
 
