@@ -28,6 +28,7 @@
 
 - Seguir el mecanismo JWT existente y su librería `firebase/php-jwt`; no implementar criptografía propia.
 - Leer configuración sensible desde el entorno con el flujo existente basado en `vlucas/phpdotenv`.
+- `api/config.php` solo puede exponer configuración pública (`APP_NAME`, `APP_URL`, `API_BASE_URL`); nunca devolver variables privadas.
 - No versionar `.env`, tokens reales ni credenciales. Mantener solo ejemplos ficticios en `.env.example`.
 
 ## Verificación

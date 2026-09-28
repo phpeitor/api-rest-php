@@ -1,7 +1,25 @@
 (() => {
   const tokenInput = document.querySelector('#token');
   const authState = document.querySelector('#auth-state');
-  const baseUrl = new URL('./', window.location.href);
+  const appRoot = new URL('./', window.location.href);
+  const endpointPaths = {
+    getAll: 'get_all_client.php',
+    getById: (id) => `get_client_id.php/${encodeURIComponent(id)}`,
+    create: 'create_client.php',
+    update: 'update_client.php',
+    delete: 'delete_client.php',
+  };
+  const configPromise = fetch(new URL('api/config.php', appRoot), { headers: { Accept: 'application/json' } })
+    .then((response) => {
+      if (!response.ok) throw new Error(`No se pudo cargar la configuración (${response.status})`);
+      return response.json();
+    })
+    .then((config) => {
+      if (!config.apiBaseUrl) throw new Error('API_BASE_URL no está configurada.');
+      config.apiBaseUrl = `${new URL(config.apiBaseUrl, appRoot).href.replace(/\/+$/, '')}/`;
+      if (config.appName) document.title = `${config.appName} · Consola de clientes`;
+      return config;
+    });
 
   document.querySelector('#toggle-token').addEventListener('click', (event) => {
     const button = event.currentTarget;
@@ -48,7 +66,7 @@
     element.append(header, output);
   }
 
-  async function request(buttonId, responseId, path, options = {}) {
+  async function request(buttonId, responseId, endpoint, options = {}, pathParameter = '') {
     const button = document.getElementById(buttonId);
     const output = document.getElementById(responseId);
     const token = tokenInput.value.trim();
@@ -67,7 +85,11 @@
     const start = performance.now();
 
     try {
-      const url = new URL(path, baseUrl);
+      const config = await configPromise;
+      const route = typeof endpointPaths[endpoint] === 'function'
+        ? endpointPaths[endpoint](pathParameter)
+        : endpointPaths[endpoint];
+      const url = new URL(route, config.apiBaseUrl);
       const response = await fetch(url, {
         ...options,
         headers: { ...getHeaders(Boolean(options.body)), ...options.headers },
@@ -91,7 +113,7 @@
   }
 
   document.querySelector('#btn-get-all').addEventListener('click', () =>
-    request('btn-get-all', 'res-get-all', 'api/get_all_client.php'));
+    request('btn-get-all', 'res-get-all', 'getAll'));
 
   document.querySelector('#btn-get-id').addEventListener('click', () => {
     const id = document.querySelector('#get-id').value.trim();
@@ -100,7 +122,7 @@
       showResponse(document.querySelector('#res-get-id'), { status: 'VALIDACIÓN', body: 'Escribe el ID del cliente que quieres consultar.', error: true });
       return;
     }
-    request('btn-get-id', 'res-get-id', `api/get_client_id.php/${encodeURIComponent(id)}`);
+    request('btn-get-id', 'res-get-id', 'getById', {}, id);
   });
 
   document.querySelector('#btn-create').addEventListener('click', () => {
@@ -113,7 +135,7 @@
       clave: 'changeme',
       semilla: 'seed',
     };
-    request('btn-create', 'res-create', 'api/create_client.php', { method: 'POST', body: JSON.stringify(payload) });
+    request('btn-create', 'res-create', 'create', { method: 'POST', body: JSON.stringify(payload) });
   });
 
   document.querySelector('#btn-update').addEventListener('click', () => {
@@ -123,7 +145,7 @@
       materno: '',
       nombres: document.querySelector('#update-names').value.trim(),
     };
-    request('btn-update', 'res-update', 'api/update_client.php', { method: 'PATCH', body: JSON.stringify(payload) });
+    request('btn-update', 'res-update', 'update', { method: 'PATCH', body: JSON.stringify(payload) });
   });
 
   document.querySelector('#btn-delete').addEventListener('click', () => {
@@ -133,10 +155,11 @@
       showResponse(document.querySelector('#res-delete'), { status: 'VALIDACIÓN', body: 'Escribe el ID del cliente que quieres eliminar.', error: true });
       return;
     }
-    request('btn-delete', 'res-delete', 'api/delete_client.php', { method: 'DELETE', body: JSON.stringify({ id }) });
+    request('btn-delete', 'res-delete', 'delete', { method: 'DELETE', body: JSON.stringify({ id }) });
   });
 
-  fetch(new URL('api/dev/token.php', baseUrl), { headers: { Accept: 'application/json' } })
+  configPromise
+    .then(({ apiBaseUrl }) => fetch(new URL('dev/token.php', apiBaseUrl), { headers: { Accept: 'application/json' } }))
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('No disponible')))
     .then(({ token }) => {
       if (token) {

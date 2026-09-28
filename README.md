@@ -105,11 +105,19 @@ Archivos:
 - `.env.example` (plantilla para el equipo)
 
 Variables usadas:
+- `APP_NAME`: nombre visible de la aplicación.
+- `APP_ENV`: entorno (`local`, `production`).
+- `APP_DEBUG`: modo de depuración.
+- `APP_URL`: URL raíz del proyecto en el servidor.
+- `API_BASE_URL`: prefijo base de los endpoints; por defecto `${APP_URL}/api`.
 - `DB_HOST`
 - `DB_USER`
 - `DB_PASSWORD`
 - `DB_NAME`
 - `DB_CHARSET`
+- `API_TOKEN`: token de acceso de la API.
+
+La consola solicita `api/config.php`, que expone solamente `APP_NAME`, `APP_URL` y `API_BASE_URL` para construir las llamadas HTTP. Los nombres de rutas de cada operación permanecen centralizados en `assets/js/app.js`; no son variables de entorno porque forman parte del contrato de la API. No publicar `DB_PASSWORD` ni `API_TOKEN`.
 
 Dependencia Composer usada para la carga automatica:
 ```bash
